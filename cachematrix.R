@@ -7,17 +7,19 @@
 ## Object to store the matrix and its inverse, once calculated.
 
 makeCacheMatrix <- function(x = matrix()) {
+  # there is initially no inverse matrix
   inverse <- NULL
   set <- function(input) {
+    # allows the user to input a new matrix, checks that it is a matrix, records there is no inverse stored
     if (!is.matrix(input)) {
       return("must be a matrix")
     }
     x <<- input
     inverse <<- NULL
   }
-  get <- function() x
-  setinverse <- function(inverse_input) inverse <<- inverse_input
-  getinverse <- function() inverse
+  get <- function() x    # returns matrix
+  setinverse <- function(inverse_input) inverse <<- inverse_input    # stores inverse matrix
+  getinverse <- function() inverse    # returns inverse matrix
   list(set = set, get = get, setinverse = setinverse, getinverse = getinverse)
 }
 
@@ -26,12 +28,14 @@ makeCacheMatrix <- function(x = matrix()) {
 ## and return it.
 
 cacheSolve <- function(x, ...) {
-  i <- x$getinverse()
+  i <- x$getinverse()    # finds what is stored in inverse in inputted object
   if(!is.null(i)){
+    # checks to see if a matrix is stored, and if so, returns it
     message("You cached it! Getting it now...")
     return(i)
   }
-  i <- solve(x$get())
-  x$setinverse(i)
-  i
+  # this only runs if no inverse matrix is stored in the object
+  i <- solve(x$get())    # creates the inverse matrix from the matrix stored in the object
+  x$setinverse(i)    # stores the inverse matrix in the object
+  i    # returns inverse matrix
 }
